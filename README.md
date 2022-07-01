@@ -282,7 +282,7 @@ To configure JasperReports to send email using SMTP you can set the following en
 - `JASPERREPORTS_SMTP_PORT_NUMBER`: SMTP port.
 - `JASPERREPORTS_SMTP_USER`: SMTP account user.
 - `JASPERREPORTS_SMTP_PASSWORD`: SMTP account password.
-- `JASPERREPORTS_SMTP_PROTOCOL`: If specified, SMTP protocol to use. Allowed values: *tls*, *ssl*. No default.
+- `JASPERREPORTS_SMTP_PROTOCOL`: If specified, SMTP protocol to use. Allowed values: *smtp* and *smtps*. No default.
 
 ##### JasperReports base URL configuration
 
@@ -304,6 +304,7 @@ This would be an example of SMTP configuration using a Gmail account:
           - ALLOW_EMPTY_PASSWORD=yes
           - JASPERREPORTS_SMTP_HOST=smtp.gmail.com
           - JASPERREPORTS_SMTP_PORT_NUMBER=587
+          - JASPERREPORTS_SMTP_PROTOCOL=smtps
           - JASPERREPORTS_SMTP_USER=your_email@gmail.com
           - JASPERREPORTS_SMTP_PASSWORD=your_password
       ...
@@ -317,6 +318,7 @@ This would be an example of SMTP configuration using a Gmail account:
       --env JASPERREPORTS_DATABASE_NAME=bitnami_jasperreports \
       --env JASPERREPORTS_SMTP_HOST=smtp.gmail.com \
       --env JASPERREPORTS_SMTP_PORT_NUMBER=587 \
+      --env JASPERREPORTS_SMTP_PROTOCOL=smtps \
       --env JASPERREPORTS_SMTP_USER=your_email@gmail.com \
       --env JASPERREPORTS_SMTP_PASSWORD=your_password \
       --network jasperreports-tier \
