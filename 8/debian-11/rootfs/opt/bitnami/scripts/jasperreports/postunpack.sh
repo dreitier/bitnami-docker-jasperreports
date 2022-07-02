@@ -37,6 +37,12 @@ jasperreports_conf_set "dbPassword" ""
 # Configure Tomcat path
 jasperreports_conf_set "appServerDir" "${BITNAMI_ROOT_DIR}/tomcat"
 
+# fixing "java.lang.RuntimeException: Failed to decrypt" after upgrading Docker image.
+# After upgrading from a previous JasperReports version, we need to use "encrypt=true"
+# @see https://community.jaspersoft.com/wiki/given-final-block-not-properly-padded-error-after-upgrade
+jasperreports_conf_set "encrypt" "true"
+
+
 # Set keystore location (based on https://community.jaspersoft.com/wiki/encryption-jasperreports-server-75)
 cat <<EOF >"${JASPERREPORTS_CONF_DIR}/keystore.init.properties"
 ks=${JASPERREPORTS_BASE_DIR}
