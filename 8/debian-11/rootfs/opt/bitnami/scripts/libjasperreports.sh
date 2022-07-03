@@ -390,7 +390,6 @@ jasperreports_initialize() {
 
         info "Restoring persisted JasperReports installation"
         restore_persisted_app "$app_name" "$JASPERREPORTS_DATA_TO_PERSIST"
-        info "Trying to connect to the database server"
         local db_type db_host db_port db_name db_user db_pass
         db_type="$(jasperreports_conf_get "dbType")"
         db_host="$(jasperreports_conf_get "dbHost")"
@@ -399,6 +398,16 @@ jasperreports_initialize() {
         db_user="$(jasperreports_conf_get "dbUsername")"
         # Adding true as the password may not be set
         db_pass="$(jasperreports_conf_get "dbPassword" || true)"
+
+        db_pass_encrypted="$(jasperreports_conf_get "encrypt.done" || false)"
+
+        if [[ "${db_pass_encrypted}" = "true" ]]; then
+            info "Database password has been already encrypted; falling back to environment password for database..."
+            db_pass="${JASPERREPORTS_DATABASE_PASSWORD}"
+        fi
+
+        info "Trying to connect to the ${db_type} database server ${db_user}:${db_pass:0:1}****@${db_host}:${db_port}  ..."
+
         [[ "$db_type" = "mariadb" || "$db_type" = "mysql" ]] && jasperreports_wait_for_mysql_connection "$db_host" "$db_port" "$db_name" "$db_user" "$db_pass"
         [[ "$db_type" = "postgresql" ]] && jasperreports_wait_for_postgresql_connection "$db_host" "$db_port" "$db_name" "$db_user" "$db_pass"
         jasperreports_run_upgrade_scripts
