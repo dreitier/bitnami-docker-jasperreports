@@ -330,13 +330,14 @@ jasperreports_initialize() {
         ensure_dir_exists "$JASPERREPORTS_VOLUME_DIR"
         # Use daemon:root ownership for compatibility when running as a non-root user
         am_i_root && configure_permissions_ownership "$JASPERREPORTS_VOLUME_DIR" -d "775" -f "664" -u "$JASPERREPORTS_DAEMON_USER" -g "root"
-        info "Trying to connect to the database server"
         db_type="$JASPERREPORTS_DATABASE_TYPE"
         db_host="$JASPERREPORTS_DATABASE_HOST"
         db_port="$JASPERREPORTS_DATABASE_PORT_NUMBER"
         db_name="$JASPERREPORTS_DATABASE_NAME"
         db_user="$JASPERREPORTS_DATABASE_USER"
         db_pass="$JASPERREPORTS_DATABASE_PASSWORD"
+        info "Trying to connect to the ${db_type} database server ${db_user}:${db_pass:0:1}****@${db_host}:${db_port}  ..."
+
         [[ "$db_type" = "mariadb" || "$db_type" = "mysql" ]] && jasperreports_wait_for_mysql_connection "$db_host" "$db_port" "$db_name" "$db_user" "$db_pass"
         [[ "$db_type" = "postgresql" ]] && jasperreports_wait_for_postgresql_connection "$db_host" "$db_port" "$db_name" "$db_user" "$db_pass"
 
